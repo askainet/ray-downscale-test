@@ -1,0 +1,32 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: ray-system
+
+resources:
+  - https://github.com/ray-project/kuberay/manifests/cluster-scope-resources/?ref=0abb2049a16eafcd951cd69e973b0571d3b19519
+  - https://github.com/ray-project/kuberay/manifests/overlays/autoscaling/?ref=0abb2049a16eafcd951cd69e973b0571d3b19519
+  - service-nodeports.yaml
+
+images:
+  - name: kuberay/operator
+    newTag: 0abb204
+  - name: kuberay/apiserver
+    newTag: 0abb204
+
+patches:
+  # Permissions in the ClusterRole included in the used ref commit are not enough for the operator to work
+  - patch: |-
+      - op: add
+        path: /rules/-
+        value:
+          apiGroups:
+          - '*'
+          resources:
+          - '*'
+          verbs:
+          - '*'
+    target:
+      group: rbac.authorization.k8s.io
+      version: v1
+      kind: ClusterRole
+      name: kuberay-operator
