@@ -1,3 +1,4 @@
+import ray
 from ray import serve
 
 
@@ -20,5 +21,9 @@ class Counter:
         return {"count": self.count}
 
 
+ray.init(address="auto", namespace="default")
+serve.start(detached=True)
+
+
 def deploy(deployment_name: str):
-    Counter.options(name=deployment_name, ray_actor_options={"num_gpus": 0.4}).deploy(single_pipeline_config, definitions)  # type: ignore
+    Counter.options(name=deployment_name, ray_actor_options={"num_gpus": 0.4}).deploy()  # type: ignore

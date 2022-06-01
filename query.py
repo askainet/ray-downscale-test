@@ -1,6 +1,6 @@
 from httpx import AsyncClient
 
-RAY_SERVE_ADDRESS = "HERE"
+RAY_SERVE_ADDRESS = "localhost"
 
 
 async def send_request(deployment_name: str) -> int:
