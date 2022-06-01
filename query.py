@@ -6,7 +6,7 @@ RAY_SERVE_ADDRESS = "localhost"
 async def send_request(deployment_name: str) -> int:
     async with AsyncClient() as client:
         response = await client.get(
-            f"http://{RAY_SERVE_ADDRESS}:8000/deployment_name",
+            f"http://{RAY_SERVE_ADDRESS}:8000/{deployment_name}",
             timeout=3,
         )
         response.raise_for_status()

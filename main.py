@@ -11,7 +11,10 @@ if __name__ == "__main__":
     tasks = []
     for i in range(1000):
         for j in range(10):
-            tasks.append(loop.create_task(deployment_name=DEPLOYMENT_NAME))
+            tasks.append(
+                loop.create_task(send_request(deployment_name=DEPLOYMENT_NAME))
+            )
         loop.run_until_complete(asyncio.wait(tasks))
+        print(f"Sent {i} of 1000 requests")
         tasks = []
     loop.close()
