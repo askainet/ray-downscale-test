@@ -11,6 +11,8 @@ spec:
   rayVersion: '1.12.1'
   # Ray autoscaler integration is supported only for Ray versions >= 1.11.0
   enableInTreeAutoscaling: true
+  autoscalerOptions:
+    idleTimeoutSeconds: 10
   ######################headGroupSpecs#################################
   # head group template and specs, (perhaps 'group' is not needed in the name)
   headGroupSpec:

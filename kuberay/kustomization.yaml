@@ -3,24 +3,30 @@ kind: Kustomization
 namespace: ray-system
 
 resources:
-  - https://github.com/ray-project/kuberay/manifests/cluster-scope-resources/?ref=eac60b36fd73b127af0f145ae9aee5c7e4de0e21
-  - https://github.com/ray-project/kuberay/manifests/overlays/autoscaling/?ref=eac60b36fd73b127af0f145ae9aee5c7e4de0e21
+  - https://github.com/ray-project/kuberay/manifests/cluster-scope-resources/?ref=0abb2049a16eafcd951cd69e973b0571d3b19519
+  - https://github.com/ray-project/kuberay/manifests/overlays/autoscaling/?ref=0abb2049a16eafcd951cd69e973b0571d3b19519
   - service-nodeports.yaml
-  - raycluster-autoscaler.yaml
 
 images:
   - name: kuberay/operator
-    newTag: eac60b3
+    newTag: 0abb204
   - name: kuberay/apiserver
-    newTag: eac60b3
+    newTag: 0abb204
 
 patches:
+  # Permissions in the ClusterRole included in the used ref commit are not enough for the operator to work
   - patch: |-
       - op: add
-        path: /spec/template/spec/containers/0/command/-
-        value: --prioritize-workers-to-delete
+        path: /rules/-
+        value:
+          apiGroups:
+          - '*'
+          resources:
+          - '*'
+          verbs:
+          - '*'
     target:
-      group: apps
+      group: rbac.authorization.k8s.io
       version: v1
-      kind: Deployment
+      kind: ClusterRole
       name: kuberay-operator
