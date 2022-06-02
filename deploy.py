@@ -1,3 +1,4 @@
+import time
 import ray
 from ray import serve
 
@@ -10,7 +11,7 @@ from ray import serve
         "upscale_delay_s": 2,
     },
     version="v1",
-    max_concurrent_queries=1,
+    max_concurrent_queries=10,
 )
 class Counter:
     def __init__(self):
@@ -18,12 +19,17 @@ class Counter:
 
     def __call__(self, request):
         self.count += 1
+        time.sleep(1)
         return {"count": self.count}
 
 
-ray.init(address="auto", namespace="default")
+ray.init(address="ray://localhost:10001", namespace="serve")
 serve.start(detached=True)
 
 
 def deploy(deployment_name: str):
-    Counter.options(name=deployment_name, ray_actor_options={"num_gpus": 0.4}).deploy()  # type: ignore
+    try:
+        serve.get_deployment(deployment_name).delete()
+    except:
+        pass
+    Counter.options(name=deployment_name, ray_actor_options={"num_cpus": 0.4}).deploy()  # type: ignore

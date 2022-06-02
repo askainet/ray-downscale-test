@@ -9,8 +9,8 @@ if __name__ == "__main__":
 
     loop = asyncio.get_event_loop()
     tasks = []
-    for i in range(100):
-        for j in range(100):
+    for i in range(1000):
+        for j in range(10):
             tasks.append(
                 loop.create_task(send_request(deployment_name=DEPLOYMENT_NAME))
             )
