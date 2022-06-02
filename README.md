@@ -1,5 +1,7 @@
 # ray-downscale-test
 
+This sample KubeRay RayCluster configuration shows how the worker nodes are not downscaled when using `serve start --http-location EveryNode`
+
 ```sh
 kind create cluster --name ray-test --config kind-config.yaml
 
