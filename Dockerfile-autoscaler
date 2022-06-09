@@ -1,0 +1,3 @@
+FROM rayproject/ray:448f52
+ENV AUTOSCALER_LOG_RESOURCE_BATCH_DATA=1
+RUN sed -i -e 's/LOGGER_LEVEL = "info"/LOGGER_LEVEL = "debug"/' /home/ray/anaconda3/lib/python3.7/site-packages/ray/ray_constants.py

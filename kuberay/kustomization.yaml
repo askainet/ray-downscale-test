@@ -3,15 +3,15 @@ kind: Kustomization
 namespace: ray-system
 
 resources:
-  - https://github.com/ray-project/kuberay/manifests/cluster-scope-resources/?ref=0abb2049a16eafcd951cd69e973b0571d3b19519
-  - https://github.com/ray-project/kuberay/manifests/overlays/autoscaling/?ref=0abb2049a16eafcd951cd69e973b0571d3b19519
+  - https://github.com/ray-project/kuberay/manifests/cluster-scope-resources/?ref=69ecfceef5c966193ab87f22a9f49250b17e35fb
+  - https://github.com/ray-project/kuberay/manifests/overlays/autoscaling/?ref=69ecfceef5c966193ab87f22a9f49250b17e35fb
   - service-nodeports.yaml
 
 images:
   - name: kuberay/operator
-    newTag: 0abb204
+    newTag: 69ecfce
   - name: kuberay/apiserver
-    newTag: 0abb204
+    newTag: 69ecfce
 
 patches:
   # Permissions in the ClusterRole included in the used ref commit are not enough for the operator to work
